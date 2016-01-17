@@ -1,10 +1,12 @@
 { nixpkgs ? import <nixpkgs> {} }:
 let
   inherit (nixpkgs) pkgs;
-  # プロジェクト名
+  # Project Name
   projectName = "my-project";
-  ghc = pkgs.haskellngPackages.ghcWithPackages (ps: with ps; [
-          # 利用するパッケージ
+  ghc = pkgs.haskellPackages.ghcWithPackages (ps: with ps; [
+          # Used ghc packages
+          # haskell packages can be listed with 
+          # nix-env -f "<nixpkgs>" -qaP -A haskellPackages
 
         ]);
 in
