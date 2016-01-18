@@ -1,4 +1,6 @@
-# Setting environment in crontabs
+# Cron
+
+## Setting environment in crontabs
 
 To have access to programs, the path variable should be set to match nixos specific locations on the first line of the crontab file:
 

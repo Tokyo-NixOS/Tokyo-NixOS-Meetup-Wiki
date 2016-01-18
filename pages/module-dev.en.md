@@ -1,12 +1,12 @@
-# Customize Modules
+# Developing NixOS Modules
 
 Customizing modules is a little more complicated than customizing packages.
 
 ## 1/ Getting stable nixpkgs
 
-Development is very active on nixpgs main repository so trying to rebuild the configuration on it can be risky.
+Development is very active on nixpgs main repository so trying to rebuild the configuration on it can trigger massive source building.
 
-To avoid that, it is possible to use a nixpkgs version that is at the same state as nix channels
+To avoid that, it is possible to use a nixpkgs version that is at the same state as nix channels to use the binary cache.
 
 The first thing to do is to clone the `[nixpgs-channel](https://github.com/NixOS/nixpkgs-channels) repository:
 
@@ -30,7 +30,7 @@ nixos https://nixos.org/channels/nixos-unstable
 
 The last part of the url, in this case `nixos-unstable` is the system channel.
 
-To checkout the branch the you can run
+To checkout the branch the you can run the following command from the folder where `nixpkgs-channels` has been cloned.
 
 ~~~~
 # git checkout nixos-unstable
