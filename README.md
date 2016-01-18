@@ -24,3 +24,4 @@
 Nix Shellファイルを`shell.nix`または`default.nix`にファイル名変更をすると自動的に読み込まれます。
 
 * [Haskell開発](nix-shells/haskell.nix)
+* [Rust開発](nix-shells/rust.nix)
