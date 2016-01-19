@@ -11,14 +11,15 @@ rootユーザで下記のコマンドを実行すれば、古い利用されて�
 $ nix-collect-garbage --delete-older-than 14d
 ```
 
-### ソフトを試す
+### パッケージを試す
 
-`nix-shell`で簡単にソフトウェアを試す事ができます。
+`nix-shell`で簡単にパッケージを試す事ができます。
 
 ```shell
 $ nix-shell -p qutebrowser
 $ qutebrowser
 ```
+
 ※ `-p`の後に複数のパッケージを指定できます。
 
 ### 楽にパッケージを検索とインストール

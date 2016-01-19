@@ -14,7 +14,7 @@ NixOSはNixパッケージマネジャーを利用ひたリナックスディス
 - [tips](pages/tips.md)
 - [日本語入力](pages/japanese-input.md)
 - [NixOS 用語集](pages/terminology.md)
-- TODO [日々の手入れ](pages/using-nixos.md)
+- [日々の手入れ](pages/using-nixos.md)
 - TODO [NixOSの仕組み](pages/internals.md)
 - TODO [configuration.nix](pages/configuration.nix.md)
 
