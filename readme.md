@@ -20,7 +20,7 @@ NixOSはNixパッケージマネジャーを利用ひたリナックスディス
 
 - [cron](pages/cron.md) ([english](pages/cron.en.md))
 - [systemd](pages/systemd.md)
-- [nix-shell](pages/nix-shell)
+- [nix-shell](pages/nix-shell.md)
 - TODO [モジュール開発](pages/module-dev.md) ([english](pages/module-dev.en.md))
 
 ## リンク
