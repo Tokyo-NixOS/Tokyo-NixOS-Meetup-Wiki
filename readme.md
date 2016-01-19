@@ -11,17 +11,17 @@ NixOSはNixパッケージマネジャーを利用ひたリナックスディス
 ## ページ
 
 - [インストール](pages/install.md) 未完成
-- TODO [configuration.nix](pages/configuration.nix.md)
 - [tips](pages/tips.md)
 - [日本語入力](pages/japanese-input.md)
-- [日々の手入れ](pages/using-nixos.md) TODO
-- TODO [NixOSの仕組み](pages/internals.md)
 - [NixOS 用語集](pages/terminology.md)
+- TODO [日々の手入れ](pages/using-nixos.md)
+- TODO [NixOSの仕組み](pages/internals.md)
+- TODO [configuration.nix](pages/configuration.nix.md)
 
 - [cron](pages/cron.md) ([english](pages/cron.en.md))
-- TODO [モジュール開発](pages/module-dev.md) ([english](pages/module-dev.en.md))
 - [systemd](pages/systemd.md)
 - [nix-shell](pages/nix-shell)
+- TODO [モジュール開発](pages/module-dev.md) ([english](pages/module-dev.en.md))
 
 ## リンク
 
