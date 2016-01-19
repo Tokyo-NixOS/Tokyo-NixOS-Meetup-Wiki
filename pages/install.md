@@ -14,7 +14,7 @@ CDで起動したら、Grub画面が表示されます。そこで「NixOS <バ�
 プロンプトで最初に行いたい事はキーボードレイアウトを日本語レイアウトに変更することです。
 
 ```shell
-loadkeys jp106
+$ loadkeys jp106
 ```
 
 ## パーティショニング
@@ -45,7 +45,7 @@ MBRとGPTのに種類のパーティションがあります。簡単にまと�
 まずはfdiskで利用できるディスクを確認します。
 
 ```shell
-fdisk -l
+$ fdisk -l
 ```
 
 一つのハードディスクがある場合はすべてのディスクがリストされます。一つのハードディスクがある場合は「/dev/sda」がリストアップされるはず。
@@ -53,7 +53,7 @@ fdisk -l
 次はfdiskでパーティションを作ります。
 
 ```
-fdisk /dev/sda
+$ fdisk /dev/sda
 ```
 
 fdiskからパーティションを作ります。下記はあくまで参考のための例となります。
@@ -128,19 +128,19 @@ mkfs.ext4 -L nixos /dev/sda3
 
 ## パーティショニングをマウント
 
-まずは/をマウントします
+まずは`/`をマウントします
 
 ```bash
 $ mount /dev/disk/by-label/nixos /mnt
 ```
 
-次はbootフォルダーを作ります
+次は`/boot`フォルダーを作ります
 
 ```bash
 $ mkdir /mnt/boot
 ```
 
-でブートをマウントします。
+で`/boot`をマウントします。
 
 
 ```bash
@@ -156,17 +156,66 @@ $ swapon /dev/sda2
 ## ネットワーク
 
 インストールにはネットワークが必要です。
-優先で接続していれば自動的にネットワークが設定されます。
+有線で接続していれば自動的にネットワークが設定されます。
 
-ネットワークを試すには`ping`コマンドを使えます。
+`ping`コマンドでネットワークを試せます。
 
 ```bash
-$ ping nixos.org
+$ ping nixos.org -c3
 ```
 
 ### Wifi
 
-TODO
+Wifiの設定はMinimal CDで多少面倒なので、自信がなければ有線かFull CDでGUIで設定がおすすめです。
+
+Wifi設定は専用なバーチャルコンソールに行いたいので、`alt+F2`を押して第2バーチャルコンソールに移動します。
+
+最初はネットワークインターフェイスを確認します
+
+```shell
+$ ifconfig -a
+```
+
+これですべてのインターフェイスはリストアップされるはずです。
+Wifiインターフェイスは`wlpXs0`の名前でリストアップされるはず（`X`は数字になります、例`wlp4s0`）
+
+wifiインターフェイス名をわかったら、次は利用できるアクセスポイント(ESSID)を確認します。
+
+```shell
+$ iwlist wlp4s0 scan | grep ESSID
+```
+
+※ `wlp4s0`は`ifconfig`で見つけたインターフェイスに変更
+
+次は`wpa_supplicant`サービスを停止します。
+
+```shell
+$ systemctl stop wpa_supplicant
+```
+
+`interface`にインタフェース名、`ESSID`をアクセスポイント名と`passphrase`をパスワードに入れ替えて、
+次はこのコマンドで接続します
+
+```shell
+$ wpa_supplicant -i interface -c <(wpa_passphrase ESSID passphrase)
+```
+
+インターフェイスは`wlp4s0`、アクセスポイントは`hogehoge`とパスワードは`himitsu`なら
+
+```shell
+$ wpa_supplicant -i wlp4s0 -c <(wpa_passphrase 'hogehoge' 'himitsu')
+```
+
+情報に問題がなければ大量なメッセージが表示されてアクセスポイントに接続されます。
+第2バーチャルコンソールをこのままにして`alt+F1`でバーチャルコンソール1に戻って、`ping`コマンドで接続状態を確認しましょう。
+
+```bash
+$ ping nixos.org -c3
+```
+
+`ping`は失敗なら、`alt+F2`でwifi接続バーチャルコンソールに戻ってから`ctrl+c`で`wpa_supplicant`プロセスを終了してもう一度試すか有線を利用すれば良い。
+
+`wpa_supplicant`のメッセージに`WRONG_KEY`が含まれている場合はパスワードが間違ってると意味します。
 
 ## 設定
 
@@ -185,18 +234,19 @@ $ nixos-generate-config --root /mnt
 `hardware-configuration.nix`にはカーネルモジュールとファイルシステムが設定されています。
 
 `configuration.nix`はメインの設定ファイルとなります。
-インストール段階では*必ず*変更しないといけないです。
+今の段階では*必ず*変更しないといけないです。
 
 エディターは`nano`しか入っていないので、vim派の人は
 
 ```bash
-nix-env -i vim
+$ nix-env -i vim
+$ echo "set backspace=2" > ~/.vimrc
 ```
 
 emacs派の人は
 
 ```bash
-nix-env -i emacs
+$ nix-env -i emacs
 ```
 
 のコマンドで好きなエディターを利用できます。(ネットワーク必要)
@@ -265,7 +315,6 @@ X11やデスクトップ環境を設定する場合は下記のように設定�
 ### Xmonad
 
 ```nix
-
   services = {
     xserver = {
       enable = true;
@@ -283,7 +332,6 @@ X11やデスクトップ環境を設定する場合は下記のように設定�
 ### KDE
 
 ```nix
-
   services = {
     xserver = {
       enable = true;
@@ -319,17 +367,17 @@ $ nixos-install
 最後に新しいシステムのrootパスワード頼まれます。
 うまく設定できなかった場合はもう一度`nixos-install`を実行しましょう。
 
-終わったら、パソコンを一同しましょう
+終わったら、パソコンをパワーオフします。
 
 ```
 $ poweroff
 ```
 
-消した後はCDやインストールUSBを外してから起動しましょう。
+パワーオフ語はインストールCDやUSBを外してから起動しましょう。
 
-再起動しましたら、設定した環境のログインもしくはプロンプトのログインが出ます。
+再起動しましたら、設定したX11環境のログインもしくはプロンプトのログインが出ます。
 
-`configuration.nix`でユーザを作ってX11環境を利用場合は、そのユーザのパスワードが設定されていないので、`ctrl + alt + F2`で別なバーチャルコンソールで`root`としてログインし、`passwd`コマンドでパスワードを設定しましょう。
+`configuration.nix`でユーザを作り、X11環境を利用場合は、そのユーザのパスワードが設定されていないので、`ctrl + alt + F2`で別なバーチャルコンソールで`root`としてログインし、`passwd`コマンドでパスワードを設定しましょう。
 
 ```
 $ passwd foo
@@ -343,4 +391,5 @@ $ exit
 
 `ctrl + alt + F7`でX11のバーチャルコンソールに戻り、`configuration.nix`で設定したユーザでログインできます！
 
+これでセットアップは完了しました。
 
