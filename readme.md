@@ -12,6 +12,10 @@ NixOSはNixパッケージマネジャーを利用ひたリナックスディス
 - 信頼できる: アトミックアップグレードとバージョンロールバックはできます。
 - デプロイ向け: NixOpsツールでNixOSをVirtualBoxやAmazon EC2に展開できます。 
 
+## nix-shell
+
+`nix-shell`フォルダー以下にはいろいろな言語のための`nix-shell`ファイルがあります。
+
 ## リンク
 
 - [NixOSマニュアル](https://nixos.org/nixos/manual/)
